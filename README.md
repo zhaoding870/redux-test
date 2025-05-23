@@ -20,3 +20,12 @@
     新增文件
         1. count_action.js 用于创建 action 对象
         2. constant.js 放置容易写错的 type 值
+
+## 3. 求和案例_redux异步action
+    1. 明确：延时的动作不想交给组件自身，想交给 action
+    2. 何时需要异步 action: 想要对状态进行操作，但是具体的操作是靠异步任务返回
+    3. 具体编码
+        1. npm install redux-thunk, 并配置在 store 中
+        2. 创建 action 的函数不再返回一般对象，而是一个函数，该函数中实现异步任务
+        3. 异步任务有结果后，分发一个同步的 action 去真正操作数据
+    4. 异步action不是必须要写的，完全可以组件自身等待异步任务有结果后，再分发同步action 
