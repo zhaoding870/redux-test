@@ -1,36 +1,82 @@
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import CountUI from '../../components/Count';
 import {
     createDecrementAction,
     createIncrementAction,
     createIncrementSyncAction
 } from '../../redux/count_action';
 
-//mapStateToProps函数
-// 该函数返回一个对象，该对象的key作为传递给UI组件的props的key，value作为传递给UI组件的props的value
-// 该函数的返回值会作为props传递给UI组件
-// 该函数的第一个参数是redux中的state
-// 该函数的返回值会作为props传递给UI组件
-const mapStateToProps = (state) => {
-  return {
-    count: state
-  };
-};
+// 该组件是一个容器组件，负责与redux进行交互
+class Count extends Component {
 
-// mapDispatchToProps函数
-// 该函数返回一个对象，该对象的key作为传递给UI组件的props的key，value作为传递给UI组件的props的value
-// 该函数的第一个参数是dispatch函数
-const mapDispatchToProps = (dispatch) => {
-  return {
-    increment: number => dispatch(createIncrementAction(number)),
-    decrement: number => dispatch(createDecrementAction(number)),
-    sysnIncrement: (number, time) => dispatch(createIncrementSyncAction(number, time))
-  };
-};
+    increment = () => {
+        const selectValue = this.selectCount.value * 1;
+        const { increment } = this.props;
+        // 调用父组件传递过来的increment函数
+        increment(selectValue);
+    }
+
+    decrement = () => {
+        const selectValue = this.selectCount.value * 1;
+        const { decrement } = this.props;
+        // 调用父组件传递过来的decrement函数
+        decrement(selectValue);
+    }
+
+    incrementIfOdd = () => {
+        const selectValue = this.selectCount.value * 1;
+        const { count, increment } = this.props;
+        // 如果当前的count是奇数，则调用父组件传递过来的increment函数
+        if (count % 2 !== 0) {
+            increment(selectValue);
+        }
+    }
+
+    sysnIncrement = () => {
+        const selectValue = this.selectCount.value * 1; 
+        const { sysnIncrement } = this.props;
+        // 调用父组件传递过来的sysnIncrement函数
+        sysnIncrement(selectValue, 1000);
+    }
+
+    render() {
+        const { count } = this.props;
+        return (
+        <div>
+            <h2>计算结果是： {count}</h2>
+            <br/>
+            <select ref={ c => this.selectCount = c }>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>&nbsp;
+            <button onClick={this.increment}>+</button>&nbsp;
+            <button onClick={this.decrement}>-</button>&nbsp;
+            <button onClick={this.incrementIfOdd}>奇数加</button>&nbsp;
+            <button onClick={this.sysnIncrement}>异步加</button>&nbsp;
+        </div>
+        )
+    }
+}
+
 
 // connect函数
-// connect函数是一个高阶组件，它接受两个参数：mapStateToProps和mapDispatchToProps
-// connect函数返回一个函数，该函数接受一个UI组件作为参数，返回一个新的组件
-// 该新的组件会将redux中的state和dispatch函数作为props传递给UI组件
-export default connect(mapStateToProps, mapDispatchToProps)(CountUI);
+export default connect(
+  state => ({count: state}), 
+  // mapStateToProps 的一般写法
+  // dispatch => (
+  //   {
+  //     increment: number => dispatch(createIncrementAction(number)),
+  //     decrement: number => dispatch(createDecrementAction(number)),
+  //     sysnIncrement: (number, time) => dispatch(createIncrementSyncAction(number, time))
+  //   }
+  // )
+
+  // mapDispatchToProps 的简写
+  {
+    increment: createIncrementAction,
+    decrement: createDecrementAction,
+    sysnIncrement: createIncrementSyncAction
+  }
+)(Count);
