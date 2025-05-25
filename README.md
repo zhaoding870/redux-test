@@ -70,3 +70,7 @@
     2. 在 store 中进行配置
         import {composeWithDevTools} from 'redux-devtools-extension';
         const store = createStore(allReduces, composeWithDevTools(applyMiddleware(thunk)));
+
+## 8.  求和案例_react-redux最终版
+    1. 所有变量名字要规范，尽量触发对象的简写形式
+    2. reducers 文件夹中，添加 index.js 专门用于汇总并暴露所有 reducer
