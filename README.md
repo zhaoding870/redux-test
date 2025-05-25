@@ -57,4 +57,11 @@
             )(UI组件)
         3. UI组件中通过 this.props.xxxxx 读取和操作状态
 
+## 6. 求和案例_react_redux数据共享版
+    1. 定义一个 Person 组件，和 Count 组件通过 redux 实现共享数据
+    2. 为 Person 组件编写： reducer, action. 配置 constant 常量
+    3. 重点：Person 的 reducer 和 Count 的 reducer 要使用 combineReducers 进行合并
+        合并后的总状态是一个对象
+    4. 交给 store 的是一个总 reducer, 最后在组件中取状态的时候，记得取到位
+
  
