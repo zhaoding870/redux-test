@@ -64,4 +64,9 @@
         合并后的总状态是一个对象
     4. 交给 store 的是一个总 reducer, 最后在组件中取状态的时候，记得取到位
 
- 
+
+## 7. 求和案例_react-redux开发者工具的使用
+    1. npm install redux-devtools-extension
+    2. 在 store 中进行配置
+        import {composeWithDevTools} from 'redux-devtools-extension';
+        const store = createStore(allReduces, composeWithDevTools(applyMiddleware(thunk)));
